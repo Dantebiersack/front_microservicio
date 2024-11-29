@@ -11,6 +11,7 @@ function mostrarAlerta(mensaje, tipo = "success") {
 
 // Cargar promociones
 function cargarPromociones() {
+    console.log("XD")
     $.ajax({
         url: API_URL,
         method: "GET",
