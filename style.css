@@ -1,0 +1,12 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.table {
+    font-size: 0.9rem;
+}
+
+.navbar .nav-link.active {
+    font-weight: bold;
+    color: #fff;
+}
