@@ -47,10 +47,12 @@
                         <div class="invalid-feedback">La fecha fin debe ser posterior a la fecha inicio.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="id_producto_fk" class="form-label">ID Producto</label>
-                        <input type="number" class="form-control" id="id_producto_fk" placeholder="Ej. 1" required>
-                        <div class="invalid-feedback">El ID del producto debe ser un número positivo.</div>
-                    </div>
+                        <label for="id_producto_fk" class="form-label">Producto</label>
+                        <select class="form-select" id="id_producto_fk" required>
+                            <option value="">Seleccione un producto</option>
+                        </select>
+                        <div class="invalid-feedback">Debe seleccionar un producto.</div>
+                    </div>                    
                     <div class="mb-3">
                         <label for="porcentaje_descuento" class="form-label">Porcentaje Descuento</label>
                         <input type="number" class="form-control" id="porcentaje_descuento" placeholder="Ej. 0.25" step="0.01" max="1" min="0" required>

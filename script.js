@@ -11,7 +11,6 @@ function mostrarAlerta(mensaje, tipo = "success") {
 
 // Cargar promociones
 function cargarPromociones() {
-    console.log("XD")
     $.ajax({
         url: API_URL,
         method: "GET",
@@ -101,8 +100,31 @@ function eliminarPromocion(id) {
     });
 }
 
+function cargarProductos() {
+    $.ajax({
+        url: "https://microservicio-promociones-cine.vercel.app/api/productos", // URL del endpoint
+        method: "GET",
+        success: function (data) {
+            const select = $("#id_producto_fk");
+            select.empty(); // Limpiar opciones previas
+            select.append('<option value="">Seleccione un producto</option>'); // Opción predeterminada
+            data.forEach(producto => {
+                select.append(`<option value="${producto.producto_id}">${producto.nombre_producto}</option>`);
+            });
+        },
+        error: function () {
+            mostrarAlerta("Error al cargar los productos.", "danger");
+        }
+    });
+}
+
+
 // Recargar tabla
 $("#recargar").on("click", cargarPromociones);
 
 // Inicializar
-$(document).ready(cargarPromociones);
+$(document).ready(function () {
+    cargarProductos(); // Llenar el select de productos
+    cargarPromociones(); // Cargar promociones
+});
+
