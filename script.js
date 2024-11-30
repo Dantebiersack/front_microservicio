@@ -49,32 +49,87 @@ function cargarPromociones() {
 
 
 // Guardar promoción
+// Validar formulario
+function validarFormulario() {
+    let valido = true;
+    const descripcion = $("#descripcion");
+    const fechaInicio = $("#fecha_inicio");
+    const fechaFin = $("#fecha_fin");
+    const idProducto = $("#id_producto_fk");
+    const porcentajeDescuento = $("#porcentaje_descuento");
+
+    // Validación de descripción
+    if (descripcion.val().trim().length < 3) {
+        descripcion.addClass("is-invalid");
+        valido = false;
+    } else {
+        descripcion.removeClass("is-invalid");
+    }
+
+    // Validación de fechas
+    const inicio = new Date(fechaInicio.val());
+    const fin = new Date(fechaFin.val());
+
+    if (!fechaInicio.val()) {
+        fechaInicio.addClass("is-invalid");
+        valido = false;
+    } else {
+        fechaInicio.removeClass("is-invalid");
+    }
+
+    if (!fechaFin.val() || fin < inicio) {
+        fechaFin.addClass("is-invalid");
+        valido = false;
+    } else {
+        fechaFin.removeClass("is-invalid");
+    }
+
+    // Validación de ID Producto
+    if (!idProducto.val() || idProducto.val() <= 0) {
+        idProducto.addClass("is-invalid");
+        valido = false;
+    } else {
+        idProducto.removeClass("is-invalid");
+    }
+
+    // Validación de porcentaje
+    const porcentaje = parseFloat(porcentajeDescuento.val());
+    if (isNaN(porcentaje) || porcentaje < 0 || porcentaje > 1) {
+        porcentajeDescuento.addClass("is-invalid");
+        valido = false;
+    } else {
+        porcentajeDescuento.removeClass("is-invalid");
+    }
+
+    return valido;
+}
+
+// Guardar promoción con validaciones
 $("#formPromocion").on("submit", function (e) {
     e.preventDefault();
 
-    // Obtén el porcentaje ingresado y conviértelo a decimal
-    const porcentajeIngresado = parseFloat($("#porcentaje_descuento").val());
-    if (isNaN(porcentajeIngresado) || porcentajeIngresado < 0 || porcentajeIngresado > 100) {
-        mostrarAlerta("El porcentaje debe estar entre 0 y 100.", "danger");
+    // Validar el formulario antes de enviar
+    if (!validarFormulario()) {
+        mostrarAlerta("Por favor, corrige los errores en el formulario.", "danger");
         return;
     }
 
+    const id_promocion = $("#id_promocion").val();
     const promocion = {
         descripcion: $("#descripcion").val(),
         fecha_inicio: $("#fecha_inicio").val(),
         fecha_fin: $("#fecha_fin").val(),
         id_producto_fk: $("#id_producto_fk").val(),
-        porcentaje_descuento: porcentajeIngresado / 100, // Convierte a decimal
+        porcentaje_descuento: $("#porcentaje_descuento").val(),
         estatus: 1
     };
 
-    const id_promocion = $("#id_promocion").val();
     const method = id_promocion ? "PUT" : "POST";
     const url = id_promocion ? `${API_URL}/${id_promocion}` : API_URL;
 
     $.ajax({
-        url,
-        method,
+        url: url,
+        method: method,
         data: JSON.stringify(promocion),
         contentType: "application/json",
         success: function () {
@@ -87,6 +142,7 @@ $("#formPromocion").on("submit", function (e) {
         }
     });
 });
+
 
 
 // Cargar datos para editar
@@ -140,7 +196,7 @@ function cargarProductos() {
 // Función para formatear fechas a DD/MM/YYYY HH:MM:SS
 function formatearFecha(fechaISO) {
     const fecha = new Date(fechaISO);
-    const dia = fecha.getDate().toString().padStart(2, '0');
+    const dia = (fecha.getDate()+1).toString().padStart(2, '0');
     const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
     const anio = fecha.getFullYear();
     const horas = fecha.getHours().toString().padStart(2, '0');

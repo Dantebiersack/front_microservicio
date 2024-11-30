@@ -39,13 +39,14 @@
                     <div class="mb-3">
                         <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
                         <input type="date" class="form-control" id="fecha_inicio" required>
-                        <div class="invalid-feedback">La fecha de inicio es obligatoria.</div>
+                        <div class="invalid-feedback">La fecha de inicio es obligatoria y debe ser anterior a la fecha fin.</div>
                     </div>
                     <div class="mb-3">
                         <label for="fecha_fin" class="form-label">Fecha Fin</label>
                         <input type="date" class="form-control" id="fecha_fin" required>
-                        <div class="invalid-feedback">La fecha fin debe ser posterior a la fecha inicio.</div>
+                        <div class="invalid-feedback">La fecha fin es obligatoria y debe ser posterior a la fecha inicio.</div>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="id_producto_fk" class="form-label">Producto</label>
                         <select class="form-select" id="id_producto_fk" required>
