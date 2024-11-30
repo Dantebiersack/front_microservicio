@@ -27,8 +27,8 @@ function cargarPromociones() {
                     <tr>
                         <td>${promocion.id_promocion}</td>
                         <td>${promocion.descripcion}</td>
-                        <td>${promocion.fecha_inicio}</td>
-                        <td>${promocion.fecha_fin}</td>
+                        <td>${formatearFecha(promocion.fecha_inicio)}</td>
+                        <td>${formatearFecha(promocion.fecha_fin)}</td>
                         <td>${porcentaje}</td> <!-- Formato de porcentaje completo -->
                         <td>${promocion.nombre_producto}</td>
                         <td>
