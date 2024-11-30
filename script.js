@@ -106,6 +106,7 @@ function validarFormulario() {
 
 // Guardar promoción con validaciones
 $("#formPromocion").on("submit", function (e) {
+    
     e.preventDefault();
 
     // Validar el formulario antes de enviar
@@ -114,13 +115,16 @@ $("#formPromocion").on("submit", function (e) {
         return;
     }
 
+    let descuento =  ($("#porcentaje_descuento").val())/100;
+
     const id_promocion = $("#id_promocion").val();
     const promocion = {
+        
         descripcion: $("#descripcion").val(),
         fecha_inicio: $("#fecha_inicio").val(),
         fecha_fin: $("#fecha_fin").val(),
         id_producto_fk: $("#id_producto_fk").val(),
-        porcentaje_descuento: $("#porcentaje_descuento").val(),
+        porcentaje_descuento:descuento,
         estatus: 1
     };
 
@@ -209,6 +213,13 @@ function formatearFecha(fechaISO) {
 
 // Recargar tabla
 $("#recargar").on("click", cargarPromociones);
+
+// Validar porcentaje descuento
+const porcentajeDescuento = $("#porcentaje_descuento");
+const porcentaje = parseFloat(porcentajeDescuento.val());
+
+// Validar que no haya letras y que el valor esté dentro del rango
+
 
 // Inicializar
 $(document).ready(function () {
