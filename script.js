@@ -81,8 +81,11 @@ function editarPromocion(id) {
         $("#fecha_fin").val(promocion.fecha_fin.split("T")[0]);
         $("#id_producto_fk").val(promocion.id_producto_fk);
         $("#porcentaje_descuento").val(promocion.porcentaje_descuento);
+    }).fail(function () {
+        mostrarAlerta("Error: No se pudo cargar la promoción.", "danger");
     });
 }
+
 
 // Eliminar promoción
 function eliminarPromocion(id) {
