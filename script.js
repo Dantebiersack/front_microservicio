@@ -25,7 +25,7 @@ function cargarPromociones() {
                         <td>${formatearFecha(promocion.fecha_inicio)}</td>
                         <td>${formatearFecha(promocion.fecha_fin)}</td>
                         <td>${promocion.porcentaje_descuento}</td>
-                        <td>${nombre_producto}</td>
+                        <td>${promocion.nombre_producto}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editarPromocion(${promocion.id_promocion})">Editar</button>
                             <button class="btn btn-danger btn-sm" onclick="eliminarPromocion(${promocion.id_promocion})">Eliminar</button>
