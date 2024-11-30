@@ -18,13 +18,18 @@ function cargarPromociones() {
             const tbody = $("#tablaPromociones tbody");
             tbody.empty();
             data.forEach(promocion => {
+                // Convierte el porcentaje decimal (0.10) a porcentaje completo (10%)
+                const porcentaje = promocion.porcentaje_descuento
+                    ? (promocion.porcentaje_descuento * 100).toFixed(0) + "%"
+                    : "0%";
+
                 tbody.append(`
                     <tr>
                         <td>${promocion.id_promocion}</td>
                         <td>${promocion.descripcion}</td>
                         <td>${promocion.fecha_inicio}</td>
                         <td>${promocion.fecha_fin}</td>
-                        <td>${(promocion.porcentaje_descuento * 100).toFixed(2)}%</td> <!-- Formato de porcentaje -->
+                        <td>${porcentaje}</td> <!-- Formato de porcentaje completo -->
                         <td>${promocion.nombre_producto}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editarPromocion(${promocion.id_promocion})">Editar</button>
@@ -42,16 +47,24 @@ function cargarPromociones() {
 
 
 
+
 // Guardar promoción
 $("#formPromocion").on("submit", function (e) {
     e.preventDefault();
+
+    // Obtén el porcentaje ingresado y conviértelo a decimal
+    const porcentajeIngresado = parseFloat($("#porcentaje_descuento").val());
+    if (isNaN(porcentajeIngresado) || porcentajeIngresado < 0 || porcentajeIngresado > 100) {
+        mostrarAlerta("El porcentaje debe estar entre 0 y 100.", "danger");
+        return;
+    }
 
     const promocion = {
         descripcion: $("#descripcion").val(),
         fecha_inicio: $("#fecha_inicio").val(),
         fecha_fin: $("#fecha_fin").val(),
         id_producto_fk: $("#id_producto_fk").val(),
-        porcentaje_descuento: $("#porcentaje_descuento").val(), // El porcentaje sigue enviándose como decimal
+        porcentaje_descuento: porcentajeIngresado / 100, // Convierte a decimal
         estatus: 1
     };
 
@@ -84,11 +97,10 @@ function editarPromocion(id) {
         $("#fecha_inicio").val(promocion.fecha_inicio.split("T")[0]);
         $("#fecha_fin").val(promocion.fecha_fin.split("T")[0]);
         $("#id_producto_fk").val(promocion.id_producto_fk);
-        $("#porcentaje_descuento").val(promocion.porcentaje_descuento);
-    }).fail(function () {
-        mostrarAlerta("Error: No se pudo cargar la promoción.", "danger");
+        $("#porcentaje_descuento").val((promocion.porcentaje_descuento * 100).toFixed(0)); // Convierte a porcentaje completo
     });
 }
+
 
 
 // Eliminar promoción
