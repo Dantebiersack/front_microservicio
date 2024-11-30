@@ -22,8 +22,8 @@ function cargarPromociones() {
                     <tr>
                         <td>${promocion.id_promocion}</td>
                         <td>${promocion.descripcion}</td>
-                        <td>${promocion.fecha_inicio}</td>
-                        <td>${promocion.fecha_fin}</td>
+                        <td>${formatearFecha(promocion.fecha_inicio)}</td>
+                        <td>${formatearFecha(promocion.fecha_fin)}</td>
                         <td>${promocion.porcentaje_descuento}</td>
                         <td>${promocion.id_producto_fk}</td>
                         <td>
@@ -39,6 +39,7 @@ function cargarPromociones() {
         }
     });
 }
+
 
 // Guardar promoción
 $("#formPromocion").on("submit", function (e) {
@@ -120,6 +121,19 @@ function cargarProductos() {
         }
     });
 }
+
+// Función para formatear fechas a DD/MM/YYYY HH:MM:SS
+function formatearFecha(fechaISO) {
+    const fecha = new Date(fechaISO);
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const anio = fecha.getFullYear();
+    const horas = fecha.getHours().toString().padStart(2, '0');
+    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+    const segundos = fecha.getSeconds().toString().padStart(2, '0');
+    return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+}
+
 
 
 // Recargar tabla
