@@ -22,9 +22,9 @@ function cargarPromociones() {
                     <tr>
                         <td>${promocion.id_promocion}</td>
                         <td>${promocion.descripcion}</td>
-                        <td>${formatearFecha(promocion.fecha_inicio)}</td>
-                        <td>${formatearFecha(promocion.fecha_fin)}</td>
-                        <td>${promocion.porcentaje_descuento}</td>
+                        <td>${promocion.fecha_inicio}</td>
+                        <td>${promocion.fecha_fin}</td>
+                        <td>${(promocion.porcentaje_descuento * 100).toFixed(2)}%</td> <!-- Formato de porcentaje -->
                         <td>${promocion.nombre_producto}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editarPromocion(${promocion.id_promocion})">Editar</button>
@@ -41,15 +41,17 @@ function cargarPromociones() {
 }
 
 
+
 // Guardar promoción
 $("#formPromocion").on("submit", function (e) {
     e.preventDefault();
+
     const promocion = {
         descripcion: $("#descripcion").val(),
         fecha_inicio: $("#fecha_inicio").val(),
         fecha_fin: $("#fecha_fin").val(),
         id_producto_fk: $("#id_producto_fk").val(),
-        porcentaje_descuento: $("#porcentaje_descuento").val(),
+        porcentaje_descuento: $("#porcentaje_descuento").val(), // El porcentaje sigue enviándose como decimal
         estatus: 1
     };
 
@@ -72,6 +74,7 @@ $("#formPromocion").on("submit", function (e) {
         }
     });
 });
+
 
 // Cargar datos para editar
 function editarPromocion(id) {
