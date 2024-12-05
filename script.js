@@ -1,6 +1,5 @@
 const API_URL = "https://microservicio-promociones-cine.vercel.app/api/promociones";
 
-// Mostrar alertas
 function mostrarAlerta(mensaje, tipo = "success") {
     const alert = $("#formAlert");
     alert.removeClass("d-none alert-success alert-danger");
@@ -8,8 +7,6 @@ function mostrarAlerta(mensaje, tipo = "success") {
     alert.text(mensaje);
     setTimeout(() => alert.addClass("d-none"), 3000);
 }
-
-// Cargar promociones
 function cargarPromociones() {
     $.ajax({
         url: API_URL,
@@ -44,12 +41,6 @@ function cargarPromociones() {
         }
     });
 }
-
-
-
-
-// Guardar promoción
-// Validar formulario
 function validarFormulario() {
     let valido = true;
     const descripcion = $("#descripcion");
@@ -94,7 +85,7 @@ function validarFormulario() {
 
     // Validación de porcentaje
     const porcentaje = parseFloat(porcentajeDescuento.val());
-    if (isNaN(porcentaje) || porcentaje < 0 || porcentaje > 1) {
+    if (isNaN(porcentaje) || porcentaje < 0) {
         porcentajeDescuento.addClass("is-invalid");
         valido = false;
     } else {
@@ -103,8 +94,6 @@ function validarFormulario() {
 
     return valido;
 }
-
-// Guardar promoción con validaciones
 $("#formPromocion").on("submit", function (e) {
     
     e.preventDefault();
@@ -147,9 +136,6 @@ $("#formPromocion").on("submit", function (e) {
     });
 });
 
-
-
-// Cargar datos para editar
 function editarPromocion(id) {
     $.get(`${API_URL}/${id}`, function (promocion) {
         $("#id_promocion").val(promocion.id_promocion);
@@ -160,10 +146,6 @@ function editarPromocion(id) {
         $("#porcentaje_descuento").val((promocion.porcentaje_descuento * 100).toFixed(0)); // Convierte a porcentaje completo
     });
 }
-
-
-
-// Eliminar promoción
 function eliminarPromocion(id) {
     if (!confirm("¿Deseas eliminar esta promoción?")) return;
     $.ajax({
@@ -197,7 +179,6 @@ function cargarProductos() {
     });
 }
 
-// Función para formatear fechas a DD/MM/YYYY HH:MM:SS
 function formatearFecha(fechaISO) {
     const fecha = new Date(fechaISO);
     const dia = (fecha.getDate()+1).toString().padStart(2, '0');
@@ -209,19 +190,11 @@ function formatearFecha(fechaISO) {
     return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
 }
 
-
-
-// Recargar tabla
 $("#recargar").on("click", cargarPromociones);
 
-// Validar porcentaje descuento
 const porcentajeDescuento = $("#porcentaje_descuento");
 const porcentaje = parseFloat(porcentajeDescuento.val());
 
-// Validar que no haya letras y que el valor esté dentro del rango
-
-
-// Inicializar
 $(document).ready(function () {
     cargarProductos(); // Llenar el select de productos
     cargarPromociones(); // Cargar promociones
