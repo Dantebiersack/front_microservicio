@@ -85,7 +85,7 @@ function validarFormulario() {
 
     // Validación de porcentaje
     const porcentaje = parseFloat(porcentajeDescuento.val());
-    if (isNaN(porcentaje) || porcentaje < 0) {
+    if (isNaN(porcentaje) || porcentaje < 0 || porcentaje > 100) {
         porcentajeDescuento.addClass("is-invalid");
         valido = false;
     } else {
